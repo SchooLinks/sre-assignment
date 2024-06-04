@@ -28,7 +28,7 @@ Before deploying we should make sure we can run the project locally
 
 1. cd to `src`.
 1. Setup the project
-   1. Install pipenv by running `pipenv install`
+   1. Install the app dependencies by running `pipenv install`
 1. Create a database with name, username, and password as specified in the
    settings file
 1. Run `python manage.py migrate` to run migrations
@@ -51,7 +51,7 @@ Before deploying we should make sure we can run the project locally
 - All dependencies in Pipfile must be successfully installed on the server
   - The project comes packed with dependencies which you can find in the
     `Pipfile`
-    - To install run `pipenv install`
+    - To install the dependencies, run `pipenv install`
 - Database must be created, migrations should be ran successfully. The
   configurations for the database are found in settings.py. This is where you
 will see what the database should be named and the username and password we
