@@ -1,0 +1,35 @@
+services:
+
+  mysql:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootroot
+      MYSQL_DATABASE: schooldb
+    ports:
+      - "3306:3306"
+
+  schoolapp:
+    restart: always
+    build: ./schoolapp
+    expose:
+      - "8000"
+    links:
+      - mysql:mysql
+    volumes:
+      - web-django:/usr/src/app
+    env_file: .env
+    environment:
+      DEBUG: 'true'
+    command: pipenv run gunicorn schoolapp.wsgi:application -w 2 -b :8000
+
+  nginx:
+    restart: always
+    build: ./nginx/
+    ports:
+      - "80:80"
+    links:
+      - schoolapp:schoolapp
+
+volumes:
+  web-django:
