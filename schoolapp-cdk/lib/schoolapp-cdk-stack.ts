@@ -37,7 +37,7 @@ export class SchoolappCdkStack extends cdk.Stack {
         subnetType: ec2.SubnetType.PUBLIC
       },
       instanceType: ec2.InstanceType.of(
-        ec2.InstanceClass.T3,
+        ec2.InstanceClass.T2,
         ec2.InstanceSize.MICRO
       ),
       machineImage: ec2.MachineImage.latestAmazonLinux2(),

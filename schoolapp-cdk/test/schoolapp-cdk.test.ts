@@ -47,7 +47,7 @@ describe("SchoolappCdkStack", () => {
     })
     test('instance configured with properties', () => {
         template.hasResourceProperties('AWS::EC2::Instance', {
-            InstanceType: 't3.micro',
+            InstanceType: 't2.micro',
             SecurityGroupIds: Match.arrayWith([
                 {
                     'Fn::GetAtt': Match.arrayWith([
