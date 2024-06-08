@@ -20,15 +20,37 @@ After creating a user and getting a better understanding of the project, I moved
 ## Work through "Requirements"
 After some analysis paralysis, I decided to go with building out the docker-compose.yml to spin up the database and django app. Once that is working, I'll create an AWS CDK project to create an EC2 instance in the free tier with docker-compose installed. When the instance is created, the code can be copied to the instance and deployed using `docker-compose`.
 
-### Docker Compose instructions
+### Development Requirements
+- Docker-compose installed for running the application locally.
+- AWS CDK: https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html
+
+### Docker Compose commands
 These can be run locally or on the infrastructure after the code is copied to it.
-1. Build the images: `docker-compose build`
+- Build the images: `docker-compose build`
+- Start the services: `docker-compose up -d`
+- Run migrations: `docker-compose run schoolapp pipenv run python manage.py migrate`
+- Create an admin user: `docker-compose run schoolapp pipenv run python manage.py createsuperuser`
+- (Local Only) Open a browser to the following site: `http://localhost:80`
+
+### AWS CDK commands
+After your AWS CDK environment is setup, use the following commands in the `schoolapp-cdk` directory to develop and deploy the AWS infrastructure:
+- Run cdk tests: `npm test`
+- See changes to the cdk infrastructure: `cdk diff`
+- Deploy cdk infrastructure: `cdk deploy`
+- Destroy cdk infrastructure: `cdk destroy`
+
+### Deployment Instructions
+Use the following instructions to create the infrastructure and deploy the app:
+1. Change directory to the `schoolapp-cdk` directory: `cd schoolapp-cdk`
+1. Deploy the CDK code: `cdk deploy`
+1. Using the keypair saved in AWS Parameter Store by the CDK code and the ip address of the instance, copy the `src` directory to the instance using scp: `scp src ec2-user@<IP_OF_INSTANCE>:.`
+1. Login to the instance using ssh: `ssh ec2-user@<IP_OF_INSTANCE>`
 1. Start the services: `docker-compose up -d`
 1. Run migrations: `docker-compose run schoolapp pipenv run python manage.py migrate`
 1. Create an admin user: `docker-compose run schoolapp pipenv run python manage.py createsuperuser`
-1. (Local Only) Open a browser to the following site: `http://localhost:80`
 
-### AWS CDK instructions
+Once all those commands are successful, the app should be accessable through a browser using the IP address of the instance.
 
 ### Possible Improvements
 - Add running the migrations as part of the app Dockerfile.
+- Create a script to grab the keypair and deploy the code to the instance created by the CDK code.
