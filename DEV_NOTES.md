@@ -43,8 +43,8 @@ After your AWS CDK environment is setup, use the following commands in the `scho
 Use the following instructions to create the infrastructure and deploy the app:
 1. Change directory to the `schoolapp-cdk` directory: `cd schoolapp-cdk`
 1. Deploy the CDK code: `cdk deploy`
-1. Using the keypair saved in AWS Parameter Store by the CDK code and the ip address of the instance, copy the `src` directory to the instance using scp: `scp src ec2-user@<IP_OF_INSTANCE>:.`
-1. Login to the instance using ssh: `ssh ec2-user@<IP_OF_INSTANCE>`
+1. Using the keypair saved in AWS Parameter Store by the CDK code and the ip address of the instance, copy the `src` directory to the instance using scp: `scp -i <LOCATION_OF_PEM_FILE> src ec2-user@<IP_OF_INSTANCE>:.`
+1. Login to the instance using ssh: `ssh -i <LOCATION_OF_PEM_FILE> ec2-user@<IP_OF_INSTANCE>`
 1. Start the services: `docker-compose up -d`
 1. Run migrations: `docker-compose run schoolapp pipenv run python manage.py migrate`
 1. Create an admin user: `docker-compose run schoolapp pipenv run python manage.py createsuperuser`
@@ -54,3 +54,4 @@ Once all those commands are successful, the app should be accessable through a b
 ### Possible Improvements
 - Add running the migrations as part of the app Dockerfile.
 - Create a script to grab the keypair and deploy the code to the instance created by the CDK code.
+- For a more robust solution, I would probably implement something similar to this blog post: https://betterprogramming.pub/deploy-your-django-apps-in-aws-with-cdk-v2-997731a4aa50
