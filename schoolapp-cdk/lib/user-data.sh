@@ -7,8 +7,8 @@ usermod -a -G docker ec2-user
 id ec2-user
 newgrp docker
 
-yum -y install python3-pip
-pip3 install docker-compose
+curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
 
 systemctl enable docker.service
 systemctl start docker.service
