@@ -40,11 +40,18 @@ export class SchoolappCdkStack extends cdk.Stack {
         ec2.InstanceClass.T2,
         ec2.InstanceSize.MICRO
       ),
-      machineImage: ec2.MachineImage.latestAmazonLinux2(),
+      machineImage: ec2.MachineImage.latestAmazonLinux2023(),
       securityGroup: schoolappSG,
       keyPair
     })
     const userDataScript = readFileSync('./lib/user-data.sh', 'utf8');
     instance.addUserData(userDataScript);
+
+    new cdk.CfnOutput(this, 'InstanceIP', {
+      value: instance.instancePublicIp
+    })
+    new cdk.CfnOutput(this, 'KeypairName', {
+      value: keyPair.keyPairId
+    })
   }
 }
